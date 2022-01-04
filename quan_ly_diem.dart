@@ -202,6 +202,14 @@ class _NhapDiemState extends State<NhapDiem> {
           children: [
             TextButton(
               onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text("Cập nhật thành công!"),
+                    );
+                  },
+                );
                 if (fKey.currentState!.validate()){
                   Route route = MaterialPageRoute(builder: (context) => QuanLyDiem());
                   Navigator.push(context, route);
