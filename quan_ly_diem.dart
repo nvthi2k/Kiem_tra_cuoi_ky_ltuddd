@@ -25,6 +25,7 @@ List<double> tb2 = [0,0,0,0,0];
 List<double> nv2 = [0,0,0,0,0];
 List<double> t2 = [0,0,0,0,0];
 List<double> av2 = [0,0,0,0,0];
+List<double> dn = [0,0,0,0,0];
 
 class _DanhSachHSState extends State<DanhSachHS> {
 
@@ -61,10 +62,14 @@ class _DanhSachHSState extends State<DanhSachHS> {
                   child: Text(name.toString()),
                 ),
                 leading: Icon(Icons.person),
-                trailing: Text(tb2[index].toStringAsFixed(1)),
+                trailing: Text(xep_loai_2(index,dn[index].toInt())),
               );
             })
     );
+  }
+  static String xep_loai_2(int index, int c){
+    if (c==0) return "Chưa rõ";
+    else return xep_loai(tb2[index]);
   }
 }
 
@@ -202,15 +207,16 @@ class _NhapDiemState extends State<NhapDiem> {
           children: [
             TextButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: Text("Cập nhật thành công!"),
-                    );
-                  },
-                );
                 if (fKey.currentState!.validate()){
+                  dn[ind]=1;
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text("Cập nhật thành công!"),
+                      );
+                    },
+                  );
                   Route route = MaterialPageRoute(builder: (context) => QuanLyDiem());
                   Navigator.push(context, route);
                   setState(() {
@@ -349,6 +355,25 @@ class HienThiDiem extends StatelessWidget {
                   ),
                 )
               ],
+            ),
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                SizedBox(width: 20,),
+                Text("Xếp loại:",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(width: 79,),
+                Text(xep_loai(tb2[ind]),
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                  ),
+                )
+              ],
             )
           ],
 
@@ -367,5 +392,14 @@ class HienThiDiem extends StatelessWidget {
     );
 
   }
+
+}
+String xep_loai(double tb){
+  if (tb>=9) return "Xuất sắc";
+  else if (tb>=8)return "Giỏi";
+  else if (tb>=6.5) return "Khá";
+  else if (tb>=5) return "Trung Bình";
+  else if (tb>=4) return "Yếu";
+  else return "Kém";
 }
 
